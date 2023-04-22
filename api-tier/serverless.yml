@@ -1,0 +1,73 @@
+---
+service: aws-gateway-export-endpoints
+
+plugins:
+  - serverless-export-env
+  - serverless-plugin-export-endpoints
+  - serverless-plugin-scripts
+
+custom:
+    service_name: aws-gateway-export-endpoints
+    project_name: ${self:custom.service_name}-${opt:stage}
+    stage: ${opt:stage, 'dev'}
+    region: ${opt:region, 'us-east-1'}
+    namespace: ${self:service}
+    endpointsBucket: ${env:ENDPOINTS_BUCKET_NAME}
+    exportEndpoints:
+        path: ".serverless/api-gateway-endpoints.json"
+        serviceEndpointKey: "^ServiceEndpoint$"
+    scripts:
+      hooks:
+        before:deploy:finalize: npm run endpoints:export&& npm run endpoints:upload
+
+provider:
+    name: aws
+    runtime: nodejs14.x
+    stage: ${self:custom.stage}
+    endpointType: REGIONAL
+    versionFunctions: false
+    environment:
+        STAGE: ${self:custom.stage}
+        REGION: ${self:custom.region}
+package:
+    excludeDevDependencies: true
+    individually: true
+    patterns:
+      - '!config-*-*-*-*.yml'
+      - '!./**/*.spec.ts'
+
+resources:
+    Resources:
+      ApiEndpointsBucket:
+          Type: AWS::S3::Bucket
+          Properties:
+              BucketName: ${self:custom.endpointsBucket}
+              PublicAccessBlockConfiguration:
+                  BlockPublicAcls: TRUE
+
+functions:
+    helloGET:
+        name: ${self:custom.project_name}-hello-get
+        handler: dist/handlers/hello-get.handler
+        timeout: 3
+        memorySize: 256
+        events:
+          - http:
+              method: get
+              path: /hello
+              cors:
+                origin: '*'
+                headers: ${file(serverless-common.yaml):allowedHeaders}
+
+    helloPOST:
+        name: ${self:custom.project_name}-hello-post
+        handler: dist/handlers/hello-post.handler
+        timeout: 3
+        memorySize: 256
+        events:
+          - http:
+              method: post
+              path: /hello
+              cors:
+                origin: '*'
+                headers: ${file(serverless-common.yaml):allowedHeaders}
