@@ -41,6 +41,7 @@ npm run deploy
 * AWS infrastructure is deployed
 * Endpoints S3 bucket is created
 * Creating endpoints json-file and uploading it to S3 bucket is automated by hook
+------
 
 ### Export endpoints-file
 You may want to export endpoints json-files without deploying
