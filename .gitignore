@@ -178,4 +178,7 @@ dist
 # Ignore build directory
 .serverless
 
+# Imported cloud config
+src/environments/*.json
+
 # End of https://www.toptal.com/developers/gitignore/api/serverless,node,macos
