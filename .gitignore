@@ -179,7 +179,7 @@ dist
 .serverless
 
 # Imported cloud config
-src/environments/*.json
+web-tier/src/environments/*.json
 
 # Compiled output
 /dist
