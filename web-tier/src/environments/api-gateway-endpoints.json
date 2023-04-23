@@ -1,8 +1,0 @@
-{
- "helloGET": {
-  "GET": "https://je0gcuipjl.execute-api.us-east-1.amazonaws.com/dev/hello"
- },
- "helloPOST": {
-  "POST": "https://je0gcuipjl.execute-api.us-east-1.amazonaws.com/dev/hello"
- }
-}
