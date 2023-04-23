@@ -1,4 +1,4 @@
-# Import aws gateway API-endpoints
+# Import and call AWS gateway API-endpoints
 
 Downloads json-file with API-endpoints from S3 bucket
 
@@ -20,7 +20,7 @@ export AWS_REGION=<region>
 
 - Setup AWS_STAGE (dev, qa, prod, etc)
 ```sh
-export AWS_STAGE=<stage
+export AWS_STAGE=<stage>
 ```
 
 - Setup ENDPOINTS_BUCKET_NAME (example: aws-gateway-api-endpoints-fjkle421l-dev)
@@ -35,10 +35,15 @@ npm install
 
 3. Import API-endpoints file
 ```sh
-npm run ready-build
+npm run import-endpoints
 ```
 
 4. Build the web-app
 ```sh
 npm run build
+```
+
+5. Run
+```sh
+ng serve
 ```
